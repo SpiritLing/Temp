@@ -233,13 +233,21 @@ body { min-width: 0; }
   font-weight: 700;
   line-height: 1.35;
 }
-#Wrapper .topic_content, #Wrapper .reply_content {
+#Wrapper .topic_content,
+#Wrapper .reply_content:not(:where(.reply-card *)) {
   color: var(--vm-text);
   font-size: 15px;
   line-height: 1.8;
   overflow-wrap: anywhere;
 }
-#Wrapper .reply-threads > .cell[data-reply-id] { padding: 14px var(--vm-inset); }
+/* 树形缩进和对话连线的行内边距由官方布局计算。 */
+#Wrapper .reply-threads:not(:where(.reply-threads-d, .reply-threads-f.reply-lines-on)) > .cell[data-reply-id] {
+  padding: 14px var(--vm-inset);
+}
+/* 官方分组左边距 68px = 10px 行内边距 + 48px 头像 + 10px 间距。 */
+#Wrapper .reply-threads > .reply-group {
+  margin-inline: calc(var(--vm-inset) + 58px) var(--vm-inset);
+}
 #Wrapper :is(.topic_content, .reply_content) a[href]:not([class]) {
   text-decoration: underline;
   text-underline-offset: .18em;
