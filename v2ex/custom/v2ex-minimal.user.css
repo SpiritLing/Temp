@@ -160,7 +160,7 @@
       background-color: var(--vm-soft);
     }
   }
-  #Wrapper .item_title { font-size: 16px; font-weight: 600; line-height: 1.5; }
+  #Wrapper .item_title { font-size: 16px; font-weight: 400; line-height: 1.5; }
   #Wrapper .item_title a:any-link { color: var(--vm-text); }
   #Wrapper .item_title a:visited { color: var(--vm-muted); }
   #Wrapper .item_title a:hover { color: var(--vm-accent); text-underline-offset: .2em; }
@@ -190,6 +190,53 @@
   }
   #Wrapper a.count_livid:visited { background: var(--vm-soft); color: var(--vm-muted); }
   #Wrapper a.count_livid:hover { background: var(--vm-hover); color: var(--vm-accent-deep); }
+
+  /* 分页：当前页用实色强调，普通页码用描边，跳页输入框保持独立。 */
+  #Wrapper :is(.page_current, .page_normal:where(:any-link)) {
+    display: inline-flex;
+    box-sizing: border-box;
+    min-inline-size: 26px;
+    min-block-size: 26px;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 6px;
+    vertical-align: middle;
+    border: 1px solid var(--vm-field-border);
+    border-radius: 7px;
+    box-shadow: none;
+    font-size: 13px;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+  }
+  #Wrapper .page_normal:any-link {
+    background-color: var(--vm-surface);
+    color: var(--vm-text);
+  }
+  #Wrapper .page_normal:any-link:hover { background-color: var(--vm-hover); }
+  #Wrapper .page_current {
+    border-color: var(--vm-accent);
+    background-color: var(--vm-accent);
+    color: var(--vm-surface);
+    font-weight: 700;
+  }
+  #Wrapper .page_input {
+    vertical-align: middle;
+    border-color: var(--vm-field-border);
+    border-radius: 7px;
+    background-color: var(--vm-surface);
+    color: var(--vm-text);
+    box-shadow: none;
+  }
+  #Wrapper .page_input:focus { border-color: var(--vm-focus); color: var(--vm-text); }
+  @media (forced-colors: active) {
+    #Wrapper .page_current {
+      forced-color-adjust: none;
+      border-color: Highlight;
+      background-color: Highlight;
+      color: HighlightText;
+    }
+  }
 
   /* 04 / 主题正文、回复、代码和表单。 */
   #Wrapper .box > .header:has(h1),

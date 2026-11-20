@@ -203,7 +203,7 @@ body, #Wrapper, #Wrapper.Night {
     background-color: var(--vf-hover);
   }
 }
-#Wrapper .item_title { font-size: 16px; font-weight: 600; line-height: 1.5; }
+#Wrapper .item_title { font-size: 16px; font-weight: 400; line-height: 1.5; }
 #Wrapper .item_title a:any-link { color: var(--vf-text); }
 #Wrapper .item_title a:visited { color: var(--vf-muted); }
 #Wrapper .item_title a:hover { color: var(--vf-accent); text-underline-offset: .2em; }
@@ -234,6 +234,48 @@ body, #Wrapper, #Wrapper.Night {
 }
 #Wrapper a.count_livid:visited { background: var(--vf-layer); color: var(--vf-muted); }
 #Wrapper a.count_livid:hover { background: var(--vf-hover); color: var(--vf-accent-hover); }
+
+/* 分页：当前页用实色强调，普通页码用描边，跳页输入框保持独立。 */
+#Wrapper :is(.page_current, .page_normal:where(:any-link)) {
+  display: inline-flex;
+  box-sizing: border-box;
+  min-inline-size: 26px;
+  min-block-size: 26px;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  vertical-align: middle;
+  border: 1px solid var(--vf-field-stroke);
+  border-radius: var(--vf-control-radius);
+  box-shadow: none;
+  font-size: 13px;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+#Wrapper .page_normal:any-link {
+  background-color: var(--vf-elevated);
+  color: var(--vf-text);
+}
+#Wrapper .page_normal:any-link:hover { background-color: var(--vf-hover); }
+#Wrapper .page_current {
+  border-color: var(--vf-indicator);
+  background-color: var(--vf-indicator);
+  color: var(--vf-on-accent);
+  font-weight: 700;
+}
+#Wrapper .page_input {
+  vertical-align: middle;
+  border-color: var(--vf-field-stroke);
+  border-radius: var(--vf-control-radius);
+  background-color: var(--vf-elevated);
+  color: var(--vf-text);
+  box-shadow: none;
+}
+#Wrapper .page_input:focus {
+  border-color: var(--vf-indicator);
+  color: var(--vf-text);
+}
 
 /* 阅读页和评论：保留 V2EX 原有编辑、引用、代码及主题操作。 */
 #Wrapper .box > .header:has(h1),
@@ -336,6 +378,12 @@ body, #Wrapper, #Wrapper.Night {
     background-color: Highlight;
   }
   :is(#Top, #site-header) #search-container:focus-within { outline: 2px solid Highlight; }
+  #Wrapper .page_current {
+    forced-color-adjust: none;
+    border-color: Highlight;
+    background-color: Highlight;
+    color: HighlightText;
+  }
 }
 
 /* 窄桌面窗口读完正文再显示侧栏；不隐藏移动端的原生导航和搜索。 */
