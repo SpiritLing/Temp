@@ -1,0 +1,353 @@
+/* V2EX · Windows 11 Fluent — 普通 CSS，供 V2EX 自定义样式引用。 */
+
+/* 明确的站点浅／深色优先，其余情况跟随系统。Mica 效果仅使用本地 CSS。 */
+:root {
+  color-scheme: light;
+  --vf-canvas: light-dark(#edf1f7, #202329);
+  --vf-mica-blue: light-dark(#dceafa, #28374c);
+  --vf-mica-neutral: light-dark(#e8e6f2, #302c3a);
+  --vf-chrome: light-dark(#e8f0fa, #292f39);
+  --vf-surface: light-dark(#fbfcfe, #2a2e35);
+  --vf-elevated: light-dark(#fff, #30353d);
+  --vf-layer: light-dark(#f0f4fa, #252930);
+  --vf-hover: light-dark(#e8f0fa, #363f4d);
+  --vf-selected: light-dark(#dfebf9, #314359);
+  --vf-stroke: light-dark(#d7e0ea, #414954);
+  --vf-field-stroke: light-dark(#8c9eb3, #7b899c);
+  --vf-text: light-dark(#202b3a, #ecf0f6);
+  --vf-muted: light-dark(#536276, #b5c0d0);
+  --vf-accent: light-dark(#005a9e, #9dccff);
+  --vf-accent-hover: light-dark(#004578, #c4e0ff);
+  --vf-indicator: light-dark(#0067c0, #87bfff);
+  --vf-on-accent: light-dark(#fff, #162337);
+  --vf-solid-hover: light-dark(#00569f, #abd2ff);
+  --vf-shadow: light-dark(rgb(34 57 88 / 8%), rgb(0 0 0 / 24%));
+  --vf-panel-radius: 8px;
+  --vf-control-radius: 4px;
+  --vf-max: 1180px;
+  --vf-side: 280px;
+  --vf-gap: 20px;
+  --vf-gutter: clamp(12px, 2.4vw, 24px);
+  --vf-inset: clamp(14px, 2vw, 20px);
+  --vf-font: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI",
+    "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
+}
+:root[data-site-theme="dark"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-site-theme="light"]) { color-scheme: dark; }
+}
+
+/* 让站内原生菜单、主题切换器等继承 Fluent 颜色，无须替换控件。 */
+:root[data-site-theme] {
+  --box-background-color: var(--vf-surface);
+  --box-background-alt-color: var(--vf-layer);
+  --box-background-hover-color: var(--vf-hover);
+  --box-border-color: var(--vf-stroke);
+  --box-border-focus-color: var(--vf-indicator);
+  --box-border-radius: var(--vf-panel-radius);
+  --box-foreground-color: var(--vf-text);
+  --color-foreground: var(--vf-text);
+  --color-graphite: var(--vf-text);
+  --color-gray: var(--vf-muted);
+  --color-fade: var(--vf-muted);
+  --link-color: var(--vf-accent);
+  --link-hover-color: var(--vf-accent-hover);
+  --link-visited-color: var(--vf-muted);
+  --node-sidebar-hover-color: var(--vf-hover);
+}
+
+body {
+  min-width: 0;
+  background:
+    radial-gradient(ellipse at 4% 0%, var(--vf-mica-blue), transparent 72%) 0 0 / 100% 45rem no-repeat,
+    radial-gradient(ellipse at 100% 8%, var(--vf-mica-neutral), transparent 66%) 100% 0 / 80% 37rem no-repeat,
+    var(--vf-canvas);
+}
+body, #Wrapper, #Wrapper.Night {
+  color: var(--vf-text);
+  font-family: var(--vf-font);
+}
+/* V2EX 会在页面后段声明 #Wrapper.Night，保持 Mica 底层可见。 */
+:root #Wrapper, :root #Wrapper.Night { background: transparent; }
+#Top, #site-header, #Bottom {
+  background: var(--vf-chrome);
+  border-color: var(--vf-stroke);
+  color: var(--vf-muted);
+}
+#Top, #site-header { box-shadow: 0 1px 2px var(--vf-shadow); }
+#Top { height: auto; padding-inline: var(--vf-gutter); }
+#Top > .content, #Wrapper > .content, #Bottom > .content {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: var(--vf-max);
+}
+#Wrapper > .content { padding-inline: var(--vf-gutter); }
+#Top > .content, #Bottom > .content {
+  max-width: calc(var(--vf-max) - 2 * var(--vf-gutter));
+}
+#Top .site-nav {
+  box-sizing: border-box;
+  min-height: 57px;
+  padding-block: 6px;
+  gap: 8px 16px;
+}
+#Top .site-nav > a:first-child { flex: 0 0 auto; }
+#Top .site-nav .tools { flex: 1 1 auto; line-height: 1.7; }
+:is(#Top .site-nav .tools, #site-header) a.top { color: var(--vf-text); }
+:is(#Top .site-nav .tools, #site-header) a.top:hover { color: var(--vf-accent); }
+#site-header { height: calc(48px + env(safe-area-inset-top)); }
+
+/* Fluent 文本框：四角小圆角、独立的底部描边，获得焦点后使用系统强调蓝。 */
+:is(#Top, #site-header) #search-container {
+  box-sizing: border-box;
+  width: clamp(132px, 25vw, 280px);
+  min-width: 0;
+  height: 34px;
+  margin: 0;
+  border: 1px solid var(--vf-stroke);
+  border-bottom-color: var(--vf-field-stroke);
+  border-radius: var(--vf-control-radius);
+  background-color: var(--vf-surface);
+}
+#site-header #search-container { flex: 1 1 132px; margin-right: 6px; }
+:is(#Top, #site-header) #search-container:focus-within {
+  border-bottom-color: var(--vf-indicator);
+  background-color: var(--vf-elevated);
+  box-shadow: inset 0 -1px var(--vf-indicator);
+}
+#search-container #search { color: var(--vf-text); font-family: var(--vf-font); }
+#search-container #search::placeholder { color: var(--vf-muted); }
+#search-container #search-result { top: calc(100% + 6px); }
+
+/* 保留站点的双栏骨架和移动版结构；用面板、分组标题、行分隔形成层次。 */
+#Wrapper > .content > #Rightbar { width: var(--vf-side); margin-right: 0; }
+#Wrapper > .content:has(> #Rightbar) > #Main {
+  margin-inline: 0 calc(var(--vf-side) + var(--vf-gap));
+}
+#Wrapper > .content > #Main { margin-left: 0; }
+#Wrapper .box {
+  border: 1px solid var(--vf-stroke);
+  border-radius: var(--vf-panel-radius);
+  background-color: var(--vf-surface);
+  box-shadow: 0 2px 4px var(--vf-shadow);
+}
+#Wrapper #pro-campaign-container:not(:has(*)) { border: 0; box-shadow: none; }
+#Wrapper .box > :last-child:is(.cell, .header, .item) { border-bottom-color: transparent; }
+#Wrapper .box > :first-child:is(#Tabs, .page-content-header, .header) {
+  border-start-start-radius: calc(var(--vf-panel-radius) - 1px);
+  border-start-end-radius: calc(var(--vf-panel-radius) - 1px);
+}
+#Wrapper #Rightbar .box > .header {
+  background-color: var(--vf-layer);
+  border-bottom-color: var(--vf-stroke);
+}
+
+/* Pivot 标签：当前项使用底部短指标，不把普通标签涂成胶囊。 */
+#Wrapper #Tabs {
+  padding: 8px var(--vf-inset) 4px;
+  background-color: var(--vf-layer);
+}
+#Wrapper #Tabs :is(.tab, .tab_current):any-link {
+  position: relative;
+  margin: 0 3px 4px 0;
+  padding: 7px 10px 9px;
+  border-radius: var(--vf-control-radius);
+  line-height: 1.2;
+  text-decoration: none;
+}
+#Wrapper #Tabs .tab:any-link { color: var(--vf-muted); }
+#Wrapper #Tabs .tab:hover { color: var(--vf-text); background-color: var(--vf-hover); }
+#Wrapper #Tabs .tab_current:any-link {
+  color: var(--vf-accent-hover);
+  background-color: var(--vf-selected);
+  font-weight: 600;
+}
+#Wrapper #Tabs .tab_current::after {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 3px;
+  width: 16px;
+  height: 3px;
+  margin-inline: auto;
+  border-radius: 2px;
+  background-color: var(--vf-indicator);
+  content: "";
+  pointer-events: none;
+}
+#Wrapper #SecondaryTabs {
+  padding: 8px var(--vf-inset);
+  border-block: 1px solid var(--vf-stroke);
+  background: var(--vf-elevated);
+  color: var(--vf-muted);
+}
+#SecondaryTabs a:any-link { display: inline-block; margin-block: 2px; }
+#Wrapper .node-header > .page-content-header {
+  padding: var(--vf-inset);
+  background: var(--vf-layer);
+  color: var(--vf-text);
+}
+.node-header .page-content-header h2 { font-weight: 600; }
+
+#Wrapper :is(#Main, .content:not(:has(> #Main))) :is(.cell.item, #TopicsNode > .cell:has(.item_title)) {
+  padding: 12px var(--vf-inset);
+  border-bottom-color: var(--vf-stroke);
+}
+#Wrapper :is(#Main, .content:not(:has(> #Main))) :is(.cell.item, #TopicsNode > .cell:has(.item_title)):last-child {
+  border-bottom-color: transparent;
+}
+#Wrapper :is(.cell.item, #TopicsNode > .cell:has(.item_title)):focus-within {
+  background-color: var(--vf-hover);
+}
+@media (hover: hover) {
+  #Wrapper :is(.cell.item, #TopicsNode > .cell:has(.item_title)):hover {
+    background-color: var(--vf-hover);
+  }
+}
+#Wrapper .item_title { font-size: 16px; font-weight: 600; line-height: 1.5; }
+#Wrapper .item_title a:any-link { color: var(--vf-text); }
+#Wrapper .item_title a:visited { color: var(--vf-muted); }
+#Wrapper .item_title a:hover { color: var(--vf-accent); text-underline-offset: .2em; }
+#Wrapper .topic_info { color: var(--vf-muted); font-size: 12px; line-height: 1.8; }
+#Wrapper .topic_info strong a:any-link { color: var(--vf-muted); }
+#Wrapper img.avatar { border-radius: 6px; }
+#Wrapper a.node:any-link {
+  padding: 3px 6px;
+  border: 1px solid var(--vf-stroke);
+  border-radius: var(--vf-control-radius);
+  background: var(--vf-layer);
+  color: var(--vf-muted);
+}
+#Wrapper a.node:hover { background: var(--vf-hover); color: var(--vf-accent-hover); }
+#Wrapper a.count_livid:any-link {
+  box-sizing: border-box;
+  min-width: 29px;
+  margin-right: 0;
+  padding: 4px 7px;
+  border: 1px solid var(--vf-stroke);
+  border-radius: var(--vf-control-radius);
+  background: var(--vf-selected);
+  color: var(--vf-accent-hover);
+  text-align: center;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+#Wrapper a.count_livid:visited { background: var(--vf-layer); color: var(--vf-muted); }
+#Wrapper a.count_livid:hover { background: var(--vf-hover); color: var(--vf-accent-hover); }
+
+/* 阅读页和评论：保留 V2EX 原有编辑、引用、代码及主题操作。 */
+#Wrapper .box > .header:has(h1),
+#Wrapper .box > :is(.cell, .inner):has(> .topic_content) { padding: var(--vf-inset); }
+#Wrapper .box > .header:has(h1) {
+  background: var(--vf-layer);
+  border-bottom-color: var(--vf-stroke);
+}
+#Wrapper .header > h1 {
+  color: var(--vf-text);
+  font-size: clamp(21px, 2.7vw, 31px);
+  font-weight: 600;
+  line-height: 1.35;
+}
+#Wrapper :is(.topic_content, .reply_content) {
+  color: var(--vf-text);
+  font-size: 15px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+#Wrapper .reply-threads > .cell[data-reply-id] {
+  padding: 14px var(--vf-inset);
+  border-bottom-color: var(--vf-stroke);
+}
+#Wrapper .reply-threads > .cell[data-reply-id]:last-child { border-bottom-color: transparent; }
+#Wrapper :is(.topic_content, .reply_content) a[href]:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+#Wrapper :is(.topic_content, .reply_content) blockquote {
+  margin-inline: 0;
+  padding: 8px 12px;
+  border: 0;
+  border-inline-start: 3px solid var(--vf-indicator);
+  border-radius: var(--vf-control-radius);
+  background: var(--vf-layer);
+  color: var(--vf-muted);
+}
+#Wrapper :is(.topic_content, .reply_content) pre {
+  box-sizing: border-box;
+  overflow-x: auto;
+  padding: 12px;
+  border: 1px solid var(--vf-stroke);
+  border-radius: var(--vf-control-radius);
+  background: var(--vf-layer);
+}
+#Wrapper .topic_buttons {
+  padding: 8px var(--vf-inset);
+  border-radius: 0 0 calc(var(--vf-panel-radius) - 1px) calc(var(--vf-panel-radius) - 1px);
+  background: var(--vf-layer);
+}
+
+#Wrapper :is(.sl, .sll, .sls, .ml, .mll, .mle) {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--vf-stroke);
+  border-bottom-color: var(--vf-field-stroke);
+  border-radius: var(--vf-control-radius);
+  background: var(--vf-elevated);
+  color: var(--vf-text);
+}
+#Wrapper :is(.sl, .sll, .sls, .ml, .mll, .mle):not(.code) { font-family: var(--vf-font); }
+#Wrapper :is(.sl, .sll, .sls, .ml, .mll, .mle):focus {
+  border-bottom-color: var(--vf-indicator);
+  box-shadow: inset 0 -1px var(--vf-indicator);
+}
+#Wrapper .super.button {
+  border: 1px solid var(--vf-stroke);
+  border-bottom-color: var(--vf-field-stroke);
+  border-radius: var(--vf-control-radius);
+  background: var(--vf-elevated);
+  color: var(--vf-text);
+  box-shadow: none;
+  text-shadow: none;
+}
+#Wrapper .super.button:hover { background: var(--vf-hover); color: var(--vf-text); }
+#Wrapper form .super.button:is([type="submit"], button:not([type])):not(:disabled, [aria-disabled="true"]) {
+  border-color: transparent;
+  background: var(--vf-indicator);
+  color: var(--vf-on-accent);
+}
+#Wrapper form .super.button:is([type="submit"], button:not([type])):not(:disabled, [aria-disabled="true"]):hover {
+  background: var(--vf-solid-hover);
+}
+:is(#Top, #site-header, #Wrapper, #Bottom) :is(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--vf-indicator);
+  outline-offset: 2px;
+}
+#search-container #search:focus-visible { outline: none; }
+@media (forced-colors: active) {
+  #Wrapper #Tabs .tab_current::after {
+    forced-color-adjust: none;
+    background-color: Highlight;
+  }
+  :is(#Top, #site-header) #search-container:focus-within { outline: 2px solid Highlight; }
+}
+
+/* 窄桌面窗口读完正文再显示侧栏；不隐藏移动端的原生导航和搜索。 */
+@media (max-width: 900px) {
+  #Wrapper > .content:has(> #Main):has(> #Rightbar) {
+    display: flex;
+    flex-direction: column;
+  }
+  #Wrapper > .content:has(> #Rightbar) > #Main { order: -1; margin-inline: 0; min-width: 0; }
+  #Wrapper > .content > #Rightbar { width: auto; min-width: 0; }
+}
+@media (max-width: 600px) {
+  :root { --vf-gutter: 10px; --vf-inset: 12px; }
+  #Top .site-nav { flex-wrap: wrap; }
+  #Top .site-nav .tools { flex-basis: 100%; text-align: left; }
+  #Wrapper #Tabs :is(.tab, .tab_current):any-link { padding-inline: 8px; }
+  #Wrapper .item_title { font-size: 15px; }
+  #Wrapper :is(.cell.item, #TopicsNode > .cell:has(.item_title)) > table > tbody > tr > td[width="70"] {
+    width: 42px;
+  }
+}
